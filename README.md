@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Professional 3D Chair Visualizer
+
+A high-end, professional-grade 3D chair visualization tool built with Next.js, Three.js, and React Three Fiber. This application allows users to customize and visualize different chair styles in real-time with professional-quality materials and lighting.
+
+## Features
+
+- **High-Quality 3D Models**: Three distinct chair styles with detailed geometry and professional finish
+  - Modern Office Chair with ergonomic design
+  - Minimalist Dining Chair with sleek angles
+  - Premium Lounge Chair with luxurious details
+
+- **Professional Materials**:
+  - Premium Fabric
+  - Fine Leather
+  - Solid Wood
+  - Brushed Metal
+  - Luxury Velvet
+  - All materials include high-resolution textures, normal maps, and roughness maps
+
+- **Advanced Rendering**:
+  - Studio-quality lighting with HDR environment
+  - Real-time shadows and reflections
+  - Professional post-processing effects
+  - High-performance rendering with optimized geometries
+
+- **Interactive Controls**:
+  - Real-time material customization
+  - Color picker with instant preview
+  - Multiple finish options (Premium, Matte, Glossy)
+  - Camera controls with auto-rotation
+  - Screenshot capture functionality
+
+## Technology Stack
+
+- **Frontend Framework**: Next.js 14
+- **3D Rendering**: Three.js with React Three Fiber
+- **State Management**: Zustand
+- **Animations**: Framer Motion
+- **Styling**: Tailwind CSS
+- **Type Safety**: TypeScript
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/chair-visualizer.git
+   ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+2. Install dependencies:
+   ```bash
+   cd chair-visualizer
+   npm install
+   ```
+
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## Project Structure
+
+```
+chair-visualizer/
+├── src/
+│   ├── app/                 # Next.js app router
+│   │   ├── components/
+│   │   │   ├── 3d/             # 3D components (Scene, Chair, Lighting)
+│   │   │   └── ui/             # UI components (Controls)
+│   │   └── library/            # Shared utilities and store
+│   ├── public/
+│   │   ├── textures/           # High-resolution textures
+│   │   └── hdr/                # Environment maps
+│   └── package.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Performance Optimization
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Efficient geometry management
+- Texture compression and optimization
+- Lazy loading of 3D assets
+- Responsive design for all devices
+- Optimized render cycles
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Contributing
 
-## Learn More
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Acknowledgments
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Three.js community for their excellent documentation and examples
+- React Three Fiber team for the amazing React bindings
+- Next.js team for the outstanding framework
