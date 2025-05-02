@@ -41,7 +41,7 @@ const Lighting: React.FC = () => {
 
   return (
     <>
-      <ambientLight intensity={0.6} />
+      <ambientLight intensity={4} />
       <primitive object={directionalLightMain} />
       <primitive object={directionalLightSecondary} />
       <primitive object={hemisphereLight} />
