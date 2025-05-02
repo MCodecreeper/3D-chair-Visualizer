@@ -2,14 +2,14 @@
 
 import { motion } from 'framer-motion';
 import { useStore } from '@/library/zustandStore';
-import { useState, useEffect } from 'react';
+import { memo, useState } from 'react';
 
 interface ControlPanelProps {
   setIsControlPanelOpen: (value: boolean) => void;
   onOptionClick: () => void;
 }
 
-const ControlPanel: React.FC<ControlPanelProps> = ({ setIsControlPanelOpen, onOptionClick }) => {
+const ControlPanel: React.FC<ControlPanelProps> = memo(({ setIsControlPanelOpen, onOptionClick }) => {
   const {
     color,
     setColor,
@@ -55,21 +55,6 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ setIsControlPanelOpen, onOp
     ],
   };
 
-  useEffect(() => {
-    const validColors = colorOptions[texture].map(option => option.value);
-    if (!validColors.includes(color)) {
-      setColor(colorOptions[texture][0].value);
-    }
-  }, [texture, color, setColor]);
-
-  const handleClose = () => {
-    setIsCrossRotating(true);
-    setTimeout(() => {
-      setIsControlPanelOpen(false);
-      setIsCrossRotating(false);
-    }, 300);
-  };
-
   const textures = [
     { id: 'fabric', label: 'Fabric' },
     { id: 'leather', label: 'Leather' },
@@ -97,6 +82,14 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ setIsControlPanelOpen, onOp
     { id: 'satin', label: 'Satin' },
     { id: 'polished', label: 'Polished' },
   ];
+
+  const handleClose = () => {
+    setIsCrossRotating(true);
+    setTimeout(() => {
+      setIsControlPanelOpen(false);
+      setIsCrossRotating(false);
+    }, 300);
+  };
 
   return (
     <motion.div
@@ -245,6 +238,6 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ setIsControlPanelOpen, onOp
       </div>
     </motion.div>
   );
-};
+});
 
 export default ControlPanel;

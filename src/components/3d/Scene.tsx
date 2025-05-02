@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Suspense, useEffect, useState, useRef } from 'react';
+import React, { Suspense, useEffect, useRef, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, useTexture } from '@react-three/drei';
 import ChairModel from './ChairModel';
@@ -16,59 +16,64 @@ interface StoreState {
   previewMode: boolean;
 }
 
-const Mat: React.FC = () => {
-  const texture = useTexture('/texture/textures/mat1.jpg', (tex) => { tex.colorSpace = THREE.SRGBColorSpace; });
+const Mat = React.memo(() => {
+  const texture = useTexture('/texture/textures/mat1.jpg', (tex) => {
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.minFilter = THREE.LinearFilter;
+    tex.magFilter = THREE.LinearFilter;
+    tex.generateMipmaps = false;
+  });
 
   return (
     <mesh position={[0, -1.5, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-      <circleGeometry args={[5, 32]} />
+      <circleGeometry args={[5, 16]} />
       <meshStandardMaterial map={texture} />
     </mesh>
   );
-};
+});
 
 const Scene: React.FC = () => {
   const { shape, autoRotate, loadConfig, previewMode } = useStore() as StoreState;
-  const [isMounted, setIsMounted] = useState(false);
   const orbitControlsRef = useRef<any>(null);
 
   useEffect(() => {
-    setIsMounted(true);
     loadConfig();
   }, [loadConfig]);
 
-  // Ensure autoRotate is applied
-  useEffect(() => {
-    if (orbitControlsRef.current) {
-      orbitControlsRef.current.autoRotate = autoRotate;
-      orbitControlsRef.current.update();
-    }
-  }, [autoRotate, previewMode]);
-
-  if (!isMounted) {
-    return null;
-  }
+  const controlsConfig = useMemo(() => ({
+    enablePan: false as const,
+    enableZoom: !previewMode,
+    enableRotate: !previewMode,
+    minDistance: 3,
+    maxDistance: 40,
+    autoRotate,
+    autoRotateSpeed: 2.0,
+    minPolarAngle: Math.PI / 6,
+    maxPolarAngle: Math.PI * 5 / 6,
+    target: new THREE.Vector3(0, 1, 0), // Explicitly use Vector3
+    enableDamping: true,
+    dampingFactor: 0.05,
+  }), [autoRotate, previewMode]);
 
   return (
     <Canvas
-      className="w-full h-full"
       shadows
       gl={{
         antialias: true,
         alpha: true,
         outputColorSpace: THREE.SRGBColorSpace,
+        powerPreference: 'high-performance',
       }}
       onCreated={({ gl }) => {
         gl.setClearColor(0x000000, 0);
-        gl.outputColorSpace = THREE.SRGBColorSpace;
-        console.log('Canvas created with transparent clear color');
+        gl.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
       }}
       style={{ background: 'transparent' }}
     >
       <Suspense fallback={null}>
         <PerspectiveCamera
           makeDefault
-          position={[0, 5, -15]} // Negative Z to view the front (chair front faces positive Z)
+          position={[0, 5, -15]}
           fov={50}
           near={0.1}
           far={100}
@@ -76,16 +81,7 @@ const Scene: React.FC = () => {
 
         <OrbitControls
           ref={orbitControlsRef}
-          enablePan={false}
-          enableZoom={!previewMode}
-          enableRotate={!previewMode}
-          minDistance={3}
-          maxDistance={40}
-          autoRotate={autoRotate}
-          autoRotateSpeed={2.0}
-          minPolarAngle={Math.PI / 6} // Restrict below mat level (above horizon)
-          maxPolarAngle={Math.PI * 5 / 6} // Restrict above mat level
-          target={[0, 1, 0]} // Target the chair's center
+          {...controlsConfig}
         />
 
         {shape && <ChairModel shape={shape} />}
@@ -97,4 +93,4 @@ const Scene: React.FC = () => {
   );
 };
 
-export default Scene;
+export default React.memo(Scene);
