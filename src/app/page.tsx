@@ -70,7 +70,7 @@ const Home: NextPage = (): ReactElement => {
             Craft Your Timeless Masterpiece
           </p>
           <p className="mt-1 text-lg text-[#a68a3d] font-semibold sm:text-xl md:text-2xl">
-            Designed by <span className="text-[#00796b] font-bold">Hamza Kamran</span>
+            Developed by <span className="text-[#00796b] font-bold">Hamza Kamran</span>
           </p>
         </header>
 
